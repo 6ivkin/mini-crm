@@ -39,7 +39,10 @@ class User
         $created_at = date('Y-m-d H:i:s');
 
         $stmt = $this->db->prepare("INSERT INTO users (login, password, is_admin, created_at) VALUE (?,?,?,?)");
-        $stmt->bindParam('ssis', $login, $password, $admin, $created_at);
+        $stmt->bindParam(1, $login, PDO::PARAM_STR);
+        $stmt->bindParam(2, $password, PDO::PARAM_STR);
+        $stmt->bindParam(3, $admin, PDO::PARAM_INT);
+        $stmt->bindParam(4, $created_at, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return true;

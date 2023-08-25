@@ -23,13 +23,14 @@ ob_start();
         <?php foreach ($users as $user): ?>
             <tr>
                 <td><?php echo $user['id']; ?></td>
-                <td><?php echo $user['username']; ?></td>
-                <td><?php echo $user['email']; ?></td>
-                <td><?php echo $user['email_verification'] ? 'Yes' : 'No'; ?></td>
+                <td><?php echo $user['login']; ?></td>
+<!--                <td>--><?php //echo $user['email']; ?><!--</td>-->
+<!--                <td>--><?php //echo $user['email_verification'] ? 'Yes' : 'No'; ?><!--</td>-->
                 <td><?php echo $user['is_admin'] ? 'Yes' : 'No'; ?></td>
-                <td><?php echo $user['role']; ?></td>
-                <td><?php echo $user['is_active'] ? 'Yes' : 'No'; ?></td>
-                <td><?php echo $user['last_login']; ?></td>
+                <td><?php echo $user['created_at']; ?></td>
+<!--                <td>--><?php //echo $user['role']; ?><!--</td>-->
+<!--                <td>--><?php //echo $user['is_active'] ? 'Yes' : 'No'; ?><!--</td>-->
+<!--                <td>--><?php //echo $user['last_login']; ?><!--</td>-->
 
                 <td>
                     <a href="index.php?page=users&action=edit&id=<?php echo $user['id']; ?>" class="btn btn-primary">Edit</a>
