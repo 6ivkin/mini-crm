@@ -28,6 +28,29 @@
                         </a>
                     </li>
                     <li>
+                        <a href="index.php?page=roles" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="index.php?page=roles"></use></svg>
+                            Roles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=register" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="index.php?page=register"></use></svg>
+                            Register
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=login" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="index.php?page=login"></use></svg>
+                            Login
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=logout" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="index.php?page=logout"></use></svg>
+                            Logout
+                        </a>
+                    </li>
                 </ul>
                 <hr>
                 <div class="dropdown">

@@ -19,7 +19,7 @@ class UsersController
 
     public function store()
     {
-        if (isset($_POST['login']) && $_POST['password'] && $_POST['confirm_password'] && $_POST['admin']) {
+        if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['confirm_password'])) {
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
 
@@ -29,6 +29,12 @@ class UsersController
             }
 
             $userModel = new User();
+            $data = [
+                'username' => $_POST['username'],
+                'email' => $_POST['email'],
+                'password' => $password,
+                'role' => 1, // по умолчанию
+            ];
             $userModel->create($_POST);
         }
         header('Location: index.php?page=users');

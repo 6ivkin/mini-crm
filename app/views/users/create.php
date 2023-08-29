@@ -8,8 +8,12 @@ ob_start();
 
 <form action="index.php?page=users&action=store" method="post">
     <div class="form-group">
-        <label for="login">Login</label>
-        <input type="text" class="form-control" id="login" name="login" required>
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" required>
     </div>
     <div class="form-group">
         <label for="password">Password</label>
@@ -19,14 +23,7 @@ ob_start();
         <label for="confirm_password">Confirm Password</label>
         <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
     </div>
-    <div class="form-group">
-        <label for="admin">Admin</label>
-        <select name="admin" id="admin" class="form-control">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Create User</button>
 </form>
 
 <?php $content = ob_get_clean();
