@@ -1,11 +1,26 @@
 <?php
 
-return [
+function tt($str)
+{
+    echo "<pre>";
+    print_r($str);
+    echo "</pre>";
+}
 
-    'db_host' => 'localhost',
-    'db_user' => 'root',
-    'db_pass' => '',
-    'db_name' => 'crm_test',
+function tte($str)
+{
+    echo "<pre>";
+    print_r($str);
+    echo "</pre>";
+    exit();
+}
 
-    'start_role' => 1, // Сюда записываем id с таблицы `roles` той роли, которая по умолчанию будет при создании пользователя
-];
+//config.php
+const APP_BASE_PATH = 'mini_crm';
+
+const DB_HOST = 'localhost';
+const DB_USER = 'root';
+const DB_PASS = '';
+const DB_NAME = 'crm_test';
+
+const START_ROLE = 1;
