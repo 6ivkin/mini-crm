@@ -8,10 +8,12 @@ class Router
 
         switch ($page) {
             case '':
+
             case 'home':
                 $controller = new HomeController();
                 $controller->index();
                 break;
+
             case 'users':
                 $controller = new UsersController();
                 if (isset($_GET['action'])) {
@@ -36,6 +38,57 @@ class Router
                     $controller->index();
                 }
                 break;
+
+            case 'roles':
+                $controller = new RoleController();
+                if (isset($_GET['action'])) {
+                    switch ($_GET['action']) {
+                        case 'create':
+                            $controller->create();
+                            break;
+                        case 'store':
+                            $controller->store();
+                            break;
+                        case 'delete':
+                            $controller->delete();
+                            break;
+                        case 'edit':
+                            $controller->edit($_GET['id']);
+                            break;
+                        case 'update':
+                            $controller->update();
+                            break;
+                    }
+                } else {
+                    $controller->index();
+                }
+                break;
+
+            case 'pages':
+                $controller = new PageController();
+                if (isset($_GET['action'])) {
+                    switch ($_GET['action']) {
+                        case 'create':
+                            $controller->create();
+                            break;
+                        case 'store':
+                            $controller->store();
+                            break;
+                        case 'delete':
+                            $controller->delete();
+                            break;
+                        case 'edit':
+                            $controller->edit($_GET['id']);
+                            break;
+                        case 'update':
+                            $controller->update();
+                            break;
+                    }
+                } else {
+                    $controller->index();
+                }
+                break;
+
             case 'register':
                 $controller = new AuthController();
                 $controller->register();
@@ -52,6 +105,7 @@ class Router
                 $controller = new AuthController();
                 $controller->logout();
                 break;
+
             case 'auth':
                 $controller = new AuthController();
                 if (isset($_GET['action'])) {
@@ -67,6 +121,7 @@ class Router
                     $controller->login();
                 }
                 break;
+
             default:
                 http_response_code(404);
                 echo "Page not found!";

@@ -9,7 +9,8 @@ ob_start();
 <form action="index.php?page=users&action=update&id=<?php echo $user['id']; ?>" method="post">
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username" value="<?php echo $user['username']; ?>" required>
+        <input type="text" class="form-control" id="username" name="username" value="<?php echo $user['username']; ?>"
+               required>
     </div>
     <div class="form-group">
         <label for="email">Email address</label>
@@ -19,10 +20,11 @@ ob_start();
     <div class="form-group">
         <label for="role">Role</label>
         <select name="role" id="role" class="form-control">
-            <option value="0" <?php echo $user['role'] == 0 ? 'selected' : ''; ?>>User</option>
-            <option value="1" <?php echo $user['role'] == 1 ? 'selected' : ''; ?>>Content Creator</option>
-            <option value="2" <?php echo $user['role'] == 2 ? 'selected' : ''; ?>>Editor</option>
-            <option value="3" <?php echo $user['role'] == 3 ? 'selected' : ''; ?>>Admin</option>
+            <?php foreach ($roles as $role): ?>
+                <option value="<?php echo $role['id']; ?>" <?php echo $user['role'] == $role['id'] ? 'selected' : ''; ?>>
+                    <?php echo $role['role_name']; ?>
+                </option>
+            <?php endforeach; ?>
         </select>
     </div>
 
