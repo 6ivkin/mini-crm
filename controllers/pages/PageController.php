@@ -1,5 +1,8 @@
 <?php
-require_once 'app/models/pages/PageModel.php';
+
+namespace controllers\pages;
+
+use models\pages\PageModel;
 
 class PageController
 {
@@ -24,54 +27,55 @@ class PageController
             $slug = trim($_POST['slug']);
 
             if (empty($title) || empty($slug)) {
-                echo 'Title and Slug fields are required!';
+                echo "Title and Slug fields are required!";
                 return;
             }
 
             $pageModel = new PageModel();
             $pageModel->createPage($title, $slug);
         }
-        header('Location: index.php?page=pages');
+        $path = '/' . APP_BASE_PATH . '/pages';
+        header("Location: $path");
     }
 
-    public function edit($id)
+    public function edit($params)
     {
         $pageModel = new PageModel();
-        $page = $pageModel->getPageById($id);
+        $page = $pageModel->getPageById($params['id']);
 
-        if(!$page) {
-            echo 'Page not found';
+        if (!$page) {
+            echo "Page not found";
             return;
         }
 
         include 'app/views/pages/edit.php';
     }
 
-    public function update()
+    public function update($params)
     {
-        if (isset($_POST['id']) && isset($_POST['title']) && isset($_POST['slug'])){
-            $id = trim($_POST['id']);
+        if (isset($params['id']) && isset($_POST['title']) && isset($_POST['slug'])) {
+            $id = trim($params['id']);
             $title = trim($_POST['title']);
             $slug = trim($_POST['slug']);
 
-            if(empty($title) || empty($slug)){
-                echo 'Title and Slug fields are required';
+            if (empty($title) || empty($slug)) {
+                echo "Title and Slug fields are required!";
                 return;
             }
 
-            $roleModel = new PageModel();
-            $roleModel->updatePage($id, $title, $slug);
+            $pageModel = new PageModel();
+            $pageModel->updatePage($id, $title, $slug);
         }
-
-        header('Location: index.php?page=pages');
+        $path = '/' . APP_BASE_PATH . '/pages';
+        header("Location: $path");
     }
 
-    public function delete()
+    public function delete($params)
     {
         $pageModel = new PageModel();
-        $pageModel->deletePage($_GET['id']);
+        $pageModel->deletePage($params['id']);
 
-        header('Location: index.php?page=pages');
+        $path = '/' . APP_BASE_PATH . '/pages';
+        header("Location: $path");
     }
-
 }

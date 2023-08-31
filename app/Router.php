@@ -1,18 +1,23 @@
 <?php
-// Пространство имен для класса
+
 namespace app;
 
-use controllers\auth\AuthController;
 use controllers\home\HomeController;
-use controllers\pages\PageController;
+use controllers\users\UsersController;
 use controllers\roles\RoleController;
-use controllers\users\UserController;
+use controllers\pages\PageController;
+use controllers\auth\AuthController;
 
 class Router
 {
-    // Определение маршрутов при помощи регулярных выражений
+
     private $routes = [
         '/^\/' . APP_BASE_PATH . '\/?$/' => ['controller' => 'home\\HomeController', 'action' => 'index'],
+        '/^\/' . APP_BASE_PATH . '\/users(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'users\\UsersController'],
+        '/^\/' . APP_BASE_PATH . '\/auth(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'auth\\AuthController'],
+        '/^\/' . APP_BASE_PATH . '\/roles(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'roles\\RoleController'],
+        '/^\/' . APP_BASE_PATH . '\/pages(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'pages\\PageController'],
+        '/^\/' . APP_BASE_PATH . '\/(register|login|authenticate|logout)(\/(?P<action>[a-z]+))?$/' => ['controller' => 'users\\AuthController']
     ];
 
     public function run()
@@ -22,15 +27,27 @@ class Router
         $action = null;
         $params = null;
 
-        // Пробегаемся по маршрутам ($routes) пока не найдем нужный
         foreach ($this->routes as $pattern => $route) {
-            // Ищу маршрут, который соответствует URI при помощи регулярного выражения
             if (preg_match($pattern, $uri, $matches)) {
-                $controller = 'controllers\\' . $route['controller'];
+                $controller = "controllers\\" . $route['controller'];
                 $action = $route['action'] ?? $matches['action'] ?? 'index';
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
                 break;
             }
         }
+
+        if (!$controller) {
+            http_response_code(404);
+            echo "Page not found!";
+            return;
+        }
+
+        $controllerInstance = new $controller();
+        if (!method_exists($controllerInstance, $action)) {
+            http_response_code(404);
+            echo "Action not found!";
+            return;
+        }
+        call_user_func_array([$controllerInstance, $action], [$params]);
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
+namespace models\roles;
+
+use models\Database;
+
 class Role
 {
-    private PDO $db;
+    private $db;
 
     public function __construct()
     {
@@ -10,7 +14,7 @@ class Role
 
         try {
             $result = $this->db->query("SELECT 1 FROM `roles` LIMIT 1");
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             $this->createTable();
         }
     }
@@ -18,58 +22,53 @@ class Role
     public function createTable()
     {
         $roleTableQuery = "CREATE TABLE IF NOT EXISTS `roles` (
-            `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `role_name` varchar(255) NOT NULL,
+            `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            `role_name` VARCHAR(255) NOT NULL,
             `role_description` TEXT
         )";
-
         try {
             $this->db->exec($roleTableQuery);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
 
     public function getAllRoles()
     {
-        $query = "SELECT * FROM `roles`";
-
         try {
-            $stmt = $this->db->query($query);
-
+            $stmt = $this->db->query("SELECT * FROM roles");
             $roles = [];
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $roles[] = $row;
             }
             return $roles;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
 
-    public function getRoleById($id){
+    public function getRoleById($id)
+    {
         $query = "SELECT * FROM roles WHERE id = ?";
-
-        try{
-            $stmt =$this->db->prepare($query);
+        try {
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
-            $role = $stmt->fetch(PDO::FETCH_ASSOC);
+            $role = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $role ? $role : false;
-        } catch(PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
 
     public function createRole($role_name, $role_description)
     {
-        $query = "INSERT INTO roles (role_name, role_description) VALUES (?,?)";
-
+        $query = "INSERT INTO roles (role_name, role_description) VALUES (?, ?)";
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$role_name, $role_description]);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -81,8 +80,9 @@ class Role
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$role_name, $role_description, $id]);
+
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -90,14 +90,12 @@ class Role
     public function deleteRole($id)
     {
         $query = "DELETE FROM roles WHERE id = ?";
-
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
-
 }
