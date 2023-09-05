@@ -6,7 +6,7 @@ ob_start();
 
 <h1>Create user</h1>
 
-<form action="index.php?page=users&action=store" method="post">
+<form action="/<?= APP_BASE_PATH ?>/users/store" method="post">
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" required>
