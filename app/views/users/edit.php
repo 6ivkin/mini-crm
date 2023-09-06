@@ -6,7 +6,7 @@ ob_start();
 
 <h1>Edit user</h1>
 
-<form action="index.php?page=users&action=update&id=<?php echo $user['id']; ?>" method="post">
+<form action="/<?= APP_BASE_PATH ?>/users/update/<?php echo $user['id']; ?>" method="post">
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" value="<?php echo $user['username']; ?>"
