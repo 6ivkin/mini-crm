@@ -12,18 +12,13 @@ class PageController
 
     public function __construct()
     {
-        $this->check = new Check();
+        $userRole = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
+        $this->check = new Check($userRole);
     }
 
     public function index()
     {
-        $slug = $this->check->getCurrentUrlSlug();
-
-        if(!$this->checkPermission($slug)){
-            $path = '/' . APP_BASE_PATH;
-            header("Location: $path");
-            return;
-        }
+        $this->check->requirePermission();
 
         $pageModel = new PageModel();
         $pages = $pageModel->getAllPages();
@@ -33,6 +28,8 @@ class PageController
 
     public function create()
     {
+        $this->check->requirePermission();
+
         $roleModel = new Role();
         $roles = $roleModel->getAllRoles();
         include 'app/views/pages/create.php';
@@ -40,6 +37,8 @@ class PageController
 
     public function store()
     {
+        $this->check->requirePermission();
+
         if (isset($_POST['title']) && isset($_POST['slug']) && isset($_POST['roles'])) {
             $title = trim($_POST['title']);
             $slug = trim($_POST['slug']);
@@ -59,6 +58,8 @@ class PageController
 
     public function edit($params)
     {
+        $this->check->requirePermission();
+
         $roleModel = new Role();
         $roles = $roleModel->getAllRoles();
 
@@ -75,6 +76,8 @@ class PageController
 
     public function update($params)
     {
+        $this->check->requirePermission();
+
         if (isset($params['id']) && isset($_POST['title']) && isset($_POST['slug']) && isset($_POST['roles'])) {
             $id = trim($params['id']);
             $title = trim($_POST['title']);
@@ -95,6 +98,8 @@ class PageController
 
     public function delete($params)
     {
+        $this->check->requirePermission();
+
         $pageModel = new PageModel();
         $pageModel->deletePage($params['id']);
 
@@ -102,22 +107,4 @@ class PageController
         header("Location: $path");
     }
 
-    public function checkPermission($slug)
-    {
-        // Получить информацию о странице по slug
-        $pageModel = new PageModel();
-        $page = $pageModel->findBySlug($slug);
-
-        if (!$page) {
-            return false;
-        }
-        // Получить разрешенные роли для страницы
-        $allowedRoles = explode(',', $page['role']);
-        // Проверить, имеет ли текущий пользователь доступ к странице
-        if (isset($_SESSION['user_role']) && in_array($_SESSION['user_role'], $allowedRoles)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
