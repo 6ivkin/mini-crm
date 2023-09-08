@@ -1,11 +1,11 @@
 <?php
 
-namespace controllers\roles;
+namespace controllers\todo\category;
 
+use models\todo\Category\CategoryModel;
 use models\Check;
-use models\roles\Role;
 
-class RoleController
+class CategoryController
 {
     private $check;
 
@@ -19,17 +19,17 @@ class RoleController
     {
         $this->check->requirePermission();
 
-        $roleModel = new Role();
-        $roles = $roleModel->getAllRoles();
+        $todoCategoryModel = new CategoryModel();
+        $categories = $todoCategoryModel->getAllCategories();
 
-        include 'app/views/roles/index.php';
+        include 'app/views/todo/category/index.php';
     }
 
     public function create()
     {
         $this->check->requirePermission();
 
-        include 'app/views/roles/create.php';
+        include 'app/views/todo/category/create.php';
     }
 
     public function store()

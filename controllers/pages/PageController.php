@@ -45,7 +45,7 @@ class PageController
             $roles = implode(",", $_POST['roles']);
 
             if (empty($title) || empty($slug) || empty($roles)) {
-                echo "Title and Slug or Role fields are required!";
+                echo "Title and Slug or CategoryModel fields are required!";
                 return;
             }
 
@@ -85,7 +85,7 @@ class PageController
             $roles = implode(",", $_POST['roles']);
 
             if (empty($title) || empty($slug) || empty($roles)) {
-                echo "Title and Slug or Role fields are required!";
+                echo "Title and Slug or CategoryModel fields are required!";
                 return;
             }
 

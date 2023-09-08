@@ -4,7 +4,7 @@ namespace controllers\users;
 
 use models\Check;
 use models\roles\Role;
-use models\User;
+use models\users\User;
 
 class UsersController
 {
@@ -27,14 +27,14 @@ class UsersController
 
     public function create()
     {
-//        $this->check->requirePermission();
+        $this->check->requirePermission();
 
         include 'app/views/users/create.php';
     }
 
     public function store()
     {
-//        $this->check->requirePermission();
+        $this->check->requirePermission();
 
         if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['confirm_password'])) {
             $password = $_POST['password'];
@@ -59,7 +59,7 @@ class UsersController
 
     public function edit($params)
     {
-//        $this->check->requirePermission();
+        $this->check->requirePermission();
 
         $userModel = new User();
         $user = $userModel->read($params['id']);
@@ -74,9 +74,20 @@ class UsersController
     public function update($params)
     {
         $this->check->requirePermission();
-
         $userModel = new User();
         $userModel->update($params['id'], $_POST);
+
+        if (isset($_POST['email'])) {
+            $newEmail = $_POST['email'];
+
+            // Проверяем, совпадает ли роль текущего пользователя с обновленной ролью
+            if ($newEmail == $_SESSION['user_email']) {
+                $path = '/' . APP_BASE_PATH . '/auth/logout';
+                header("Location: $path");
+                exit();
+            }
+        }
+
         $path = '/' . APP_BASE_PATH . '/users';
         header("Location: $path");
     }

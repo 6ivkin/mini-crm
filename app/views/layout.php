@@ -50,28 +50,15 @@
                             Pages
                         </a>
                     </li>
+                    <hr>
+                    <h4>ToDo List</h4>
                     <li>
-                        <a href="/<?= APP_BASE_PATH ?>/auth/register" class="nav-link text-white">
+                        <a href="/<?= APP_BASE_PATH ?>/todo/category"
+                           class="nav-link text-white">
                             <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="/<?= APP_BASE_PATH ?>/auth/register"></use>
+                                <use xlink:href="/<?= APP_BASE_PATH ?>/todo/category"></use>
                             </svg>
-                            Register
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/<?= APP_BASE_PATH ?>/auth/login" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="/<?= APP_BASE_PATH ?>/auth/login"></use>
-                            </svg>
-                            Login
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/<?= APP_BASE_PATH ?>/auth/logout" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16">
-                                <use xlink:href="/<?= APP_BASE_PATH ?>/auth/logout"></use>
-                            </svg>
-                            Logout
+                            Category
                         </a>
                     </li>
                 </ul>
@@ -89,7 +76,8 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        <li><a class="dropdown-item" href="/<?= APP_BASE_PATH ?>/auth/logout">Sign out</a></li>
+                        <li><a class="dropdown-item" href="/<?= APP_BASE_PATH ?>/auth/login">Sign in</a></li>
                     </ul>
                 </div>
             </div>

@@ -7,13 +7,24 @@ use models\pages\PageModel;
 
 class Check
 {
+    private $userRole;
+
+    public function __construct($userRole)
+    {
+        $this->userRole = $userRole;
+    }
+
     public function getCurrentUrlSlug()
     {
         $url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $parseUrl = parse_url($url);
         $path = $parseUrl['path'];
-        $slug = str_replace(APP_BASE_PATH, '', $path);
-        return ltrim($slug, '/');//Удаляем слеш в начале строки url
+        $pathWithoutBase = str_replace(APP_BASE_PATH, '', $path);
+
+        $segments = explode('/', ltrim($pathWithoutBase, '/'));
+        $firstTwoSegments = array_slice($segments, 0, 2);
+        $slug = implode('/', $firstTwoSegments);
+        return $slug;
     }
 
     public function checkPermission($slug)
@@ -35,14 +46,19 @@ class Check
         }
     }
 
-    public function requirePermission()
+    public function requirePermission(): void
     {
         $slug = $this->getCurrentUrlSlug();
 
-        if(!$this->checkPermission($slug)){
+        if (!$this->checkPermission($slug)) {
             $path = '/' . APP_BASE_PATH;
             header("Location: $path");
-            return;
+            exit();
         }
+    }
+
+    public function isCurrentUserRole($role): bool
+    {
+        return $this->userRole == $role;
     }
 }

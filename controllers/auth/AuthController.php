@@ -3,17 +3,10 @@
 namespace controllers\auth;
 
 use models\AuthUser;
-use models\Check;
+
 
 class AuthController
 {
-    private $check;
-
-    public function __construct()
-    {
-        $userRole = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : null;
-        $this->check = new Check($userRole);
-    }
 
     public function register()
     {
