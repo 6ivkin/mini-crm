@@ -1,37 +1,41 @@
 <?php
 
-$title = 'Roles';
+$title = 'Todo Category';
 ob_start();
 ?>
 
-    <h1 class="mb-4">Roles</h1>
-    <a href="/<?= APP_BASE_PATH ?>/roles/create" class="btn btn-success">Create role</a>
+    <h1 class="mb-4">Todo Category</h1>
+    <a href="/<?= APP_BASE_PATH ?>/todo/category/create" class="btn btn-success">Create category</a>
     <table class="table">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Role Name</th>
-            <th>Role Description</th>
-            <th>Action</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Usability</th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach($roles as $role): ?>
+        <?php foreach ($categories as $category): ?>
             <tr>
-                <td><?= $role['id'] ?></td>
-                <td><?= $role['role_name'] ?></td>
-                <td><?= $role['role_description'] ?></td>
+                <td><?= $category['id'] ?></td>
+                <td><?= $category['title'] ?></td>
+                <td><?= $category['description'] ?></td>
+                <td><?= $category['usability'] == 1 ? 'Yes' : 'No' ?></td>
                 <td>
-                    <a href="/<?= APP_BASE_PATH ?>/roles/edit/<?= $role['id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                    <form method="POST" action="/<?= APP_BASE_PATH ?>/roles/delete/<?= $role['id'] ?>" class="d-inline-block">
-                        <!-- <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button> -->
+                    <a href="/<?= APP_BASE_PATH ?>/todo/category/edit/<?= $category['id'] ?>"
+                       class="btn btn-sm btn-outline-primary">Edit</a>
+                    <form method="POST" action="/<?= APP_BASE_PATH ?>/todo/category/delete/<?= $category['id'] ?>"
+                          class="d-inline-block">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Are you sure?')">Delete
+                        </button>
                     </form>
                 </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
-
 
 
 <?php $content = ob_get_clean();

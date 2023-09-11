@@ -1,11 +1,12 @@
 <?php
 
-namespace controllers\todo\category;
+namespace controllers\todo\tasks;
 
+use models\todo\tasks\TaskModel;
 use models\todo\category\CategoryModel;
 use models\Check;
 
-class CategoryController{
+class TaskController{
 
     private $check;
 
@@ -18,33 +19,38 @@ class CategoryController{
     public function index(){
         $this->check->requirePermission();
 
-        $todoCategoryModel = new CategoryModel();
-        $categories = $todoCategoryModel->getAllCategories();
+        $taskModel = new TaskModel();
+        $tasks = $taskModel->getAllTasks();
 
-        include 'app/views/todo/category/index.php';
+        include 'app/views/todo/tasks/index.php';
     }
 
     public function create(){
         $this->check->requirePermission();
-        include 'app/views/todo/category/create.php';
+
+        $todoCategoryModel = new CategoryModel();
+        $categories = $todoCategoryModel->getAllCategoriesWithUsability();
+
+        include 'app/views/todo/tasks/create.php';
     }
 
     public function store(){
+
         $this->check->requirePermission();
-        if(isset($_POST['title']) && isset($_POST['description'])){
-            $title = trim($_POST['title']);
-            $description = trim($_POST['description']);
-            $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
-            if (empty($title) || empty($description)) {
-                echo "Title and Description are required!";
-                return;
-            }
+        if(isset($_POST['title']) && isset($_POST['category_id']) && isset($_POST['finish_date'])){
+            $data['title'] = trim($_POST['title']);
+            $data['category_id'] = trim($_POST['category_id']);
+            $data['finish_date'] = trim($_POST['finish_date']);
+            $data['user_id'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+            $data['status'] = 'new';
+            $data['priority'] = 'low';
 
-            $todoCategoryModel = new CategoryModel();
-            $todoCategoryModel->createCategory($title, $description, $user_id);
+            $taskModel = new TaskModel();
+            $taskModel->createTask($data);
+
         }
-        $path = '/'. APP_BASE_PATH . '/todo/category';
+        $path = '/'. APP_BASE_PATH . '/todo/tasks';
         header("Location: $path");
     }
 

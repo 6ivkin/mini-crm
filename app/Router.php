@@ -1,5 +1,4 @@
 <?php
-
 namespace app;
 
 use controllers\home\HomeController;
@@ -8,8 +7,7 @@ use controllers\roles\RoleController;
 use controllers\pages\PageController;
 use controllers\auth\AuthController;
 
-class Router
-{
+class Router {
 
     private $routes = [
         '/^\/' . APP_BASE_PATH . '\/?$/' => ['controller' => 'home\\HomeController', 'action' => 'index'],
@@ -18,11 +16,11 @@ class Router
         '/^\/' . APP_BASE_PATH . '\/roles(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'roles\\RoleController'],
         '/^\/' . APP_BASE_PATH . '\/pages(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'pages\\PageController'],
         '/^\/' . APP_BASE_PATH . '\/(register|login|authenticate|logout)(\/(?P<action>[a-z]+))?$/' => ['controller' => 'users\\AuthController'],
-        '/^\/' . APP_BASE_PATH . '\/todo\/category(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'todo\\CategoryController'],
+        '/^\/' . APP_BASE_PATH . '\/todo\/category(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'todo\category\\CategoryController'],
+        '/^\/' . APP_BASE_PATH . '\/todo\/tasks(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'todo\tasks\\TaskController'],
     ];
 
-    public function run()
-    {
+    public function run() {
         $uri = $_SERVER['REQUEST_URI'];
         $controller = null;
         $action = null;
