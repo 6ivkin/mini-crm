@@ -1,4 +1,5 @@
 <?php
+
 namespace app;
 
 use controllers\home\HomeController;
@@ -7,7 +8,8 @@ use controllers\roles\RoleController;
 use controllers\pages\PageController;
 use controllers\auth\AuthController;
 
-class Router {
+class Router
+{
 
     private $routes = [
         '/^\/' . APP_BASE_PATH . '\/?$/' => ['controller' => 'home\\HomeController', 'action' => 'index'],
@@ -20,7 +22,8 @@ class Router {
         '/^\/' . APP_BASE_PATH . '\/todo\/tasks(\/(?P<action>[a-z]+)(\/(?P<id>\d+))?)?$/' => ['controller' => 'todo\tasks\\TaskController'],
     ];
 
-    public function run() {
+    public function run()
+    {
         $uri = $_SERVER['REQUEST_URI'];
         $controller = null;
         $action = null;

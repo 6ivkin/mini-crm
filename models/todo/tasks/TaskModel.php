@@ -1,59 +1,64 @@
 <?php
+
 namespace models\todo\tasks;
 
 use models\Database;
 
-class TaskModel {
+class TaskModel
+{
     private $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
 
-        try{
+        try {
             $result = $this->db->query("SELECT 1 FROM `todo_list` LIMIT 1");
-        } catch(\PDOException $e){
+        } catch (\PDOException $e) {
             $this->createTable();
         }
     }
 
-    public function createTable(){
+    public function createTable()
+    {
         $query = "CREATE TABLE IF NOT EXISTS `todo_list` (
-            `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `user_id` INT NOT NULL,
-            `title` VARCHAR(255) NOT NULL,
-            `description` TEXT,
-            `category_id` INT NOT NULL,
-            `status` ENUM('new', 'in_progress', 'completed', 'on_hold', 'cancelled') NOT NULL,
-            `priority` ENUM('low', 'medium', 'high', 'urgent') NOT NULL,
-            `assigned_to` INT,
-            `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-            `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            `finish_date` DATETIME,
-            `copleted_at` DATETIME,
-            `reminder_at` DATETIME,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY (category_id) REFERENCES todo_category(id) ON DELETE SET NULL,
-            FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
-        )";
+        `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `user_id` INT NOT NULL,
+        `title` VARCHAR(255) NOT NULL,
+        `description` TEXT,
+        `category_id` INT, -- убрал NOT NULL здесь
+        `status` ENUM('new', 'in_progress', 'completed', 'on_hold', 'cancelled') NOT NULL,
+        `priority` ENUM('low', 'medium', 'high', 'urgent') NOT NULL,
+        `assigned_to` INT, -- и здесь убрал NOT NULL
+        `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `finish_date` DATETIME,
+        `copleted_at` DATETIME,
+        `reminder_at` DATETIME,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES todo_category(id) ON DELETE SET NULL,
+        FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
+    )";
 
-        try{
+        try {
             $this->db->exec($query);
             return true;
-        } catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
 
-    public function getAllTasks(){
+    public function getAllTasks()
+    {
 
-        try{
+        try {
             $stmt = $this->db->query("SELECT * FROM todo_list");
             $todo_list = [];
-            while($row = $stmt->fetch(\PDO::FETCH_ASSOC)){
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $todo_list[] = $row;
             }
             return $todo_list;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -67,7 +72,7 @@ class TaskModel {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$data['user_id'], $data['title'], $data['category_id'], $data['status'], $data['priority'], $data['finish_date']]);
             return true;
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -76,12 +81,12 @@ class TaskModel {
     {
         $query = "SELECT * FROM todo_list WHERE id = ?";
 
-        try{
-            $stmt =$this->db->prepare($query);
+        try {
+            $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             $todo_task = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $todo_task ? $todo_task : false;
-        } catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -90,12 +95,12 @@ class TaskModel {
     {
         $query = "UPDATE todo_category SET title = ?, description = ?, usability = ? WHERE id = ?";
 
-        try{
+        try {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$title, $description, $usability, $id]);
 
             return true;
-        } catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -108,9 +113,10 @@ class TaskModel {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             return true;
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             return false;
         }
     }
 }
+
 ?>

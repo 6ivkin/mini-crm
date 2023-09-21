@@ -15,11 +15,11 @@ ob_start();
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#task-collapse-<?php echo $task['id']; ?>" aria-expanded="false"
                                 aria-controls="task-collapse-<?php echo $task['id']; ?>">
-                            <span class="col-12 col-md-5"><i
+                            <span class="col-12 col-md-9"><i
                                         class="fa-solid fa-square-up-right"></i> <strong><?php echo $task['title']; ?> </strong></span>
-                            <span class="col-5 col-md-3"><i
+                            <span class="col-12 col-md-6"><i
                                         class="fa-solid fa-person-circle-question"></i> <?php echo $task['priority']; ?> </span>
-                            <span class="col-5 col-md-3"><i class="fa-solid fa-hourglass-start"></i><span
+                            <span class="col-12 col-md-9"><i class="fa-solid fa-hourglass-start"></i><span
                                         class="due-date"><?php echo $task['finish_date']; ?></span></span>
                         </button>
                     </h2>
@@ -38,8 +38,8 @@ ob_start();
                         <p><strong><i class="fa-solid fa-file-prescription"></i>
                                 Description:</strong> <?php echo htmlspecialchars($task['description'] ?? ''); ?></p>
                         <div class="d-flex justify-content-end">
-                            <a href="edit.php?id=<?php echo $task['id']; ?>" class="btn btn-primary me-2">Edit</a>
-                            <button class="btn btn-danger">Delete</button>
+                            <a href="/<?= APP_BASE_PATH ?>/todo/tasks/edit/<?php echo $task['id']; ?>" class="btn btn-primary me-2">Edit</a>
+                            <a href="/<?= APP_BASE_PATH ?>/todo/tasks/delete/<?php echo $task['id']; ?>" class="btn btn-danger me-2">Delete</a>
                         </div>
                     </div>
                 </div>
